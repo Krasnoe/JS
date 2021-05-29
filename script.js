@@ -1,9 +1,11 @@
-let money;
-let income;
-let addExpenses;
-let deposit;
-let mission;
-let period;
+'use strict';
+
+let money,
+  income,
+  addExpenses,
+  deposit,
+  mission,
+  period;
 
 alert('Hello, world');
 console.log('Message in console');
