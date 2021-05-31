@@ -1,17 +1,17 @@
 'use strict';
 
 // Доход за месяц
-let money = 50000;
+let money = 50000,
 // Дополнительный доход
-let income = 20000;
+  income = 'подработка',
 // Дополнительные расходы
-let addExpenses= 'еда, кальян, виски';
+  addExpenses= 'еда, кальян, виски',
 // Любое булево значение
-let deposit = true;
+  deposit = true,
 // Сумма, которую хочу накопить
-let mission = 350000;
+  mission = 350000,
 // От 1 до 12 месяцев
-let period = 12;
+  period = 12;
 
 console.log(typeof(money));
 console.log(typeof(income));
