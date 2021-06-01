@@ -10,7 +10,7 @@ let money = parseInt(prompt('Ваш месячный доход?'), 10),
   amount1 = parseInt(prompt('Во сколько это обойдется?'), 10),
   amount2 = parseInt(prompt('Во сколько это обойдется?'), 10),
   budgetMonth = (money - (amount1 + amount2)),
-  budgetDay = budgetMonth / 30,
+  budgetDay = Math.floor(budgetMonth / 30),
   period = Math.ceil(mission / budgetMonth);
 
 console.log(typeof(money));
@@ -20,9 +20,9 @@ console.log(addExpenses.length);
 console.log(`Период равен ${period} месяцев`);
 console.log(`Цель заработать ${mission} рублей`);
 console.log(addExpenses.toLowerCase().split(', '));
-console.log(budgetDay);
-console.log(budgetMonth);
-console.log(period);
+console.log(`Бюджет на месяц: ${budgetMonth}`);
+console.log(`Цель будет достигнута через ${period} месяцев(-а)`);
+console.log(`Бюджет на день: ${budgetDay}`);
 
 if (budgetDay >= 1200){
   console.log('У вас высокий уровень дохода');
