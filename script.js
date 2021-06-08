@@ -11,22 +11,24 @@ let bot = function(){
     bot();
 
   } 
+
   if (b < a && b > 0){
     alert('Загаданное число больше');
     console.log(b);
     bot();
 
   } 
-  if (b === '50'){
+  if (b == 50){
     alert('Поздравляю, Вы угадали!!!');
-
   } 
+
   if (b === null){
     console.log(b);
     alert('Игра окончена');
     return;
   }
-  if (isNaN(b) || b === '0' || b.trim() === ''){
+
+  if (isNaN(b) || b == 0 || b.trim() === ''){
     console.log(b);
     alert('Введи число!');
     bot();
