@@ -1,38 +1,40 @@
 'use strict';
 
-let bot = function(){
-  const a = 50;
-  let b = 0;
-  b = prompt('Угадай число от 1 до 100');
+const bot = function(){
+  const botNumber = 50;
+  function game() {
+    const userNumber = prompt('Угадай число от 1 до 100');
     
-  if (b > a) {
+  if (userNumber > botNumber) {
     alert('Загаданное число меньше');
-    console.log(b);
+    console.log(userNumber);
     bot();
 
   } 
 
-  if (b < a && b > 0){
+  if (userNumber < botNumber && userNumber > 0){
     alert('Загаданное число больше');
-    console.log(b);
+    console.log(userNumber);
     bot();
 
   } 
-  if (b == 50){
+  if (userNumber == botNumber){
     alert('Поздравляю, Вы угадали!!!');
   } 
 
-  if (b === null){
-    console.log(b);
+  if (userNumber === null){
+    console.log(userNumber);
     alert('Игра окончена');
     return;
   }
 
-  if (isNaN(b) || b == 0 || b.trim() === ''){
-    console.log(b);
+  if (isNaN(userNumber) || userNumber == 0 || userNumber.trim() === ''){
+    console.log(userNumber);
     alert('Введи число!');
     bot();
-  } 
+  }
+  }
+  game();
 };
 
 bot();
