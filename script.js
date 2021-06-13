@@ -13,7 +13,7 @@ const start = function() {
 };
 start();
 
-let appData = {
+const appData = {
   income: {},
   addIncome: [],
   expenses: {}, // объект с расходами на месяц
@@ -40,7 +40,7 @@ let appData = {
           question2 = +prompt('Во сколько это обойдется?');
         }
         appData.expenses[question1] = question2;
-        } return;
+        }
         },
 
     getExpensesMonth: function(){
