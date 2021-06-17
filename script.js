@@ -1,5 +1,7 @@
 'use strict';
 
+// 1-е задание
+// через if
 let lang = +prompt('Какой ваш язык?/What is y lang? ru - 1/en - 2');
 
 if (lang === 1) {
@@ -10,6 +12,7 @@ if (lang === 1) {
   alert(`Нужно ввести 1 или 2/You need to enter 1 or 2`);
 }
 
+// через switch-case 
 lang = +prompt('Какой ваш язык?/What is y lang? ru - 1/en - 2');
 
 switch (lang) {
@@ -23,4 +26,14 @@ switch (lang) {
     alert(`Нужно ввести 1 или 2/You need to enter 1 or 2`);
 }
 
+// через многомерный массив без ифов и switch
+lang = +prompt('Какой ваш язык?/What is y lang? ru - 1/en - 2');
+
+
+
+// 2-е задание
+let namePerson = prompt('имя');
+
+let message = (namePerson === 'Артём') ? 'директор' : (namePerson === 'Максим') ? 'преподаватель' : 'студент';
+console.log(message);
 
