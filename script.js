@@ -1,25 +1,26 @@
 'use strict';
 
 const start = document.getElementById('start'),
-  incomePlus = document.getElementsByTagName('button')[0],
-  expensesPlus = document.getElementsByTagName('button')[1],
-  depositCheckbox = document.querySelector('#deposit-check'),
-  additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
-  budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
-  budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
-  expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
-  additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
-  incomePeriodValue = document.querySelector('.income_period-value'),
-  targetMonthValue = document.getElementsByClassName('target_month-value')[0],
-  periodSelect = document.querySelector('.period-select'),
-  salaryAmount = document.querySelector('.salary-amount'), // инпут бюджет
-  incomeTitle = document.querySelector('.income-items .income-title'),
-  expensesTitle = document.querySelector('.expenses-items .expenses-title'),
-  additionalExpensesItem = document.querySelector('.additional_expenses-item'),
-  targetAmount = document.querySelector('.target-amount');
-
+    incomePlus = document.getElementsByTagName('button')[0],
+    expensesPlus = document.getElementsByTagName('button')[1],
+    depositCheckbox = document.querySelector('#deposit-check'),
+    additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
+    budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
+    budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
+    expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
+    additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
+    incomePeriodValue = document.querySelector('.income_period-value'),
+    targetMonthValue = document.getElementsByClassName('target_month-value')[0],
+    salaryAmount = document.querySelector('.salary-amount'), // инпут бюджет
+    incomeTitle = document.querySelector('.income-items .income-title'),
+    expensesTitle = document.querySelector('.expenses-items .expenses-title'),
+    additionalExpensesItem = document.querySelector('.additional_expenses-item'),
+    targetAmount = document.querySelector('.target-amount'),
+    periodAmount = document.querySelector('.period-amount');
+  
 let expensesItems = document.querySelectorAll('.expenses-items'),
     additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
+    periodSelect = document.querySelector('.period-select'), // ползунок
     incomeItems = document.querySelectorAll('.income-items');
 
 const appData = {
@@ -37,10 +38,6 @@ const appData = {
   moneyDeposit: 0,
 
   start: function () {
-    if(salaryAmount.value === ''){
-      alert('Ошибка, после "Месячный доход" должно быть заполнено!');
-      return;
-    }
     appData.budget = +salaryAmount.value;
     appData.getExpenses();
     appData.getIncome(); // -
@@ -61,7 +58,10 @@ const appData = {
     additionalExpensesValue.value = appData.addExpenses.join(', ');
     additionalIncomeValue.value = appData.addIncome.join(', ');
     targetMonthValue.value = appData.getTargetMonth();
-    incomePeriodValue.value = appData.calcPeriod();
+    periodSelect.addEventListener('change', function() {
+      incomePeriodValue.value = appData.calcPeriod(); 
+    });
+
   },
   addExpensesBlock: function(){
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -155,10 +155,21 @@ const appData = {
     }
   },
   calcPeriod: function(){
+    periodSelect.addEventListener('change', function() {
+      periodAmount.textContent = periodSelect.value; 
+    });
+    periodAmount.textContent = '1';
     return appData.budgetMonth * periodSelect.value;
   }
 };
 
+// Скрывание кнопки Рассчитать при пустом инпуте
+document.querySelector('.control').style.visibility = 'hidden';
+salaryAmount.addEventListener('input', function(){
+  document.querySelector('.control').style.visibility = 'visible';
+});
+
+// Назначения кнопок
 start.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
