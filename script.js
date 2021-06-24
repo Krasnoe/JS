@@ -58,10 +58,12 @@ const appData = {
     additionalExpensesValue.value = appData.addExpenses.join(', ');
     additionalIncomeValue.value = appData.addIncome.join(', ');
     targetMonthValue.value = appData.getTargetMonth();
-    periodSelect.addEventListener('change', function() {
-      incomePeriodValue.value = appData.calcPeriod(); 
+    incomePeriodValue.value = appData.budgetMonth * periodSelect.value; // для вывода периода равного 1
+    periodSelect.addEventListener('input', function() {  // для вывода остальных периодов
+      periodAmount.textContent = '1';
+      periodAmount.textContent = periodSelect.value; 
+      incomePeriodValue.value = appData.budgetMonth * periodSelect.value;
     });
-
   },
   addExpensesBlock: function(){
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -154,26 +156,34 @@ const appData = {
       }
     }
   },
-  calcPeriod: function(){
-    periodSelect.addEventListener('change', function() {
-      periodAmount.textContent = periodSelect.value; 
-    });
-    periodAmount.textContent = '1';
-    return appData.budgetMonth * periodSelect.value;
-  }
+  // calcPeriod: function(){
+  //   periodSelect.addEventListener('input', function() {
+  //     periodAmount.textContent = periodSelect.value; 
+  //   });
+  //   periodAmount.textContent = '1';
+  //   return appData.budgetMonth * periodSelect.value;
+  // }
 };
 
-// Скрывание кнопки Рассчитать при пустом инпуте
-document.querySelector('.control').style.visibility = 'hidden';
+const isNumber = function (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n) ;
+};
+
+// деактивация кнопки Старт при пустом инпуте
+start.disabled = true;
 salaryAmount.addEventListener('input', function(){
-  document.querySelector('.control').style.visibility = 'visible';
+  if(isNumber(salaryAmount.value)){
+    start.disabled = false;
+    start.addEventListener('click', appData.start);
+  } else {start.disabled = true;
+  }
 });
 
 // Назначения кнопок
-start.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 
+//  Старый код**********************************************************************************************
 
 // for (let key2 in appData) {
   //   console.log(key2 + " : " + appData[key2]);
@@ -213,9 +223,6 @@ incomePlus.addEventListener('click', appData.addIncomeBlock);
             // for (let key in appData.income){
             //   appData.incomeMonth += +appData.income[key];
             // }
-// const isNumber = function (n) {
-//   return !isNaN(parseFloat(n)) && isFinite(n);
-// };
 
 // const isString = function (n) {
 //   return (n === null || n.length === 0 || n.trim() === '' || isNumber(n));
