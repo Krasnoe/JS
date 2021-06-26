@@ -5,19 +5,7 @@ const todoControl = document.querySelector('.todo-control'),
       todoList = document.querySelector('.todo-list'),
       todoCompleted = document.querySelector('.todo-completed');
 
-
-let todoData = [];
-// [ JSON.parse(localStorage.getItem())
-//   // получение дел из localstorage **********************************************************
-//   // {
-//   //   value: 'Сварить кофе',
-//   //   completed: false
-//   // },
-//   // {
-//   //   value: 'Помыть посуду',
-//   //   completed: true
-//   // }
-// ];
+const todoData = (localStorage.getItem('data') === null) ? [] : JSON.parse(localStorage.getItem('data'));
 
 const render = function(){
   todoList.textContent = '';
@@ -32,7 +20,6 @@ const render = function(){
       '<button class="todo-remove"></button>' + 
       '<button class="todo-complete"></button>' +
       '</div>';
-
     if(item.completed) {
       todoCompleted.append(li);
     } else {
@@ -47,13 +34,16 @@ const render = function(){
 
     const btnDelete = li.querySelector('.todo-remove');
     btnDelete.addEventListener('click', function(){
-      console.log(li);
+      todoData.splice(todoData.indexOf(item), 1);
       li.remove();
-      
+      render();
     });
-  }); 
-}; 
 
+  }); 
+
+  localStorage.setItem('data', JSON.stringify(todoData));
+
+}; 
 
 todoControl.addEventListener('submit', function(event){
   event.preventDefault();
@@ -62,19 +52,14 @@ todoControl.addEventListener('submit', function(event){
     value: headerInput.value,
     completed: false
   };
-  if(headerInput.value === ''){
+  if(headerInput.value.trim() === ''){
     console.log('пусто');
   } else {
     todoData.push(newTodo);
   }
 
-  localStorage.setItem(todoData, JSON.stringify(todoData));
   render();
-  
 
 });
-
-
-
 
 render();
