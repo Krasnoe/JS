@@ -5,14 +5,14 @@ const todoControl = document.querySelector('.todo-control'),
       todoList = document.querySelector('.todo-list'),
       todoCompleted = document.querySelector('.todo-completed');
 
-const todoData = (localStorage.getItem('data') === null) ? [] : JSON.parse(localStorage.getItem('data'));
+const todoData = [] || JSON.parse(localStorage.getItem('data'));
 
 const render = function(){
   todoList.textContent = '';
   todoCompleted.textContent = '';
   headerInput.value = '';
 
-  todoData.forEach(function(item){
+  todoData.forEach(function(item, i){
     let li = document.createElement('li');
     li.classList.add('todo-item');
     li.innerHTML = '<span class="text-todo">' + item.value + '</span>' + 
@@ -34,7 +34,7 @@ const render = function(){
 
     const btnDelete = li.querySelector('.todo-remove');
     btnDelete.addEventListener('click', function(){
-      todoData.splice(todoData.indexOf(item), 1);
+      todoData.splice(i, 1);
       li.remove();
       render();
     });
