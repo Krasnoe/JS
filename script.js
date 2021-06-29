@@ -99,7 +99,6 @@ const appData = {
       incomeItems = document.querySelectorAll('.income-items');
       incomePlus.style.display = 'block';
     }
-    this.start();
   },
   showResalt: function(){
     budgetMonthValue.value = this.budgetMonth;
