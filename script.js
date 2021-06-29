@@ -30,12 +30,12 @@ DomElement.prototype.getElement = function () {
     font-size: ${this.fontSize};
   `;
 };
-let question = prompt('какой знак . или #?');
-if(question === '.'){
+
+let btn1 = document.querySelector('.point').addEventListener('click', function(){
   const NewDomElement = new DomElement('.newElement', '100px', '100px', 'red', '14px');
   NewDomElement.getElement();
-}
-if(question === '#'){
-  const NewDomElement = new DomElement('#newElement', '100px', '200px', 'yellow', '14px');
+});
+let btn2 = document.querySelector('.grid').addEventListener('click', function(){
+  const NewDomElement = new DomElement('#newElement', '100px', '200px', 'yellow', '16px');
   NewDomElement.getElement();
-}
+});
