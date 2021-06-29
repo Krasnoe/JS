@@ -113,8 +113,8 @@ AppData.prototype.addExpensesBlock = function(){
   }
 };
 AppData.prototype.addIncomeBlock = function(){
-  let cloneExpensesItem = incomeItems[0].cloneNode(true);
-  incomeItems[0].parentNode.insertBefore(cloneExpensesItem, incomePlus);
+  let cloneIncomeItem = incomeItems[0].cloneNode(true);
+  incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
   incomeItems = document.querySelectorAll('.income-items');
   if(incomeItems.length === 3){
     incomePlus.style.display = 'none';
