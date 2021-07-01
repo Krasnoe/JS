@@ -9,7 +9,7 @@ const DomElement = function (selector, height, width, bg, fontSize){
 };
 
 DomElement.prototype.getElement = function () {
-
+  
   if(this.selector.match(/^\./)) {
     let newElement = document.createElement('div');
     newElement.classList.add(this.selector.substring(1));
@@ -31,11 +31,7 @@ DomElement.prototype.getElement = function () {
   `;
 };
 
-let btn1 = document.querySelector('.point').addEventListener('click', function(){
-  const NewDomElement = new DomElement('.newElement', '100px', '100px', 'red', '14px');
-  NewDomElement.getElement();
-});
-let btn2 = document.querySelector('.grid').addEventListener('click', function(){
-  const NewDomElement = new DomElement('#newElement', '100px', '200px', 'yellow', '16px');
-  NewDomElement.getElement();
-});
+const NewDomElement = new DomElement('#newElement', '100px', '100px', 'red', '14px');
+NewDomElement.getElement();
+
+
