@@ -4,7 +4,6 @@ const start = document.getElementById('start'),
     cancel = document.getElementById('cancel'),
     incomePlus = document.getElementsByTagName('button')[0],
     expensesPlus = document.getElementsByTagName('button')[1],
-    depositCheckbox = document.querySelector('#deposit-check'),
     additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
     budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
     budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
@@ -12,9 +11,7 @@ const start = document.getElementById('start'),
     additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
     incomePeriodValue = document.querySelector('.income_period-value'),
     targetMonthValue = document.getElementsByClassName('target_month-value')[0],
-    salaryAmount = document.querySelector('.salary-amount'), 
-    incomeTitle = document.querySelector('.income-items .income-title'),
-    expensesTitle = document.querySelector('.expenses-items .expenses-title'),
+    salaryAmount = document.querySelector('.salary-amount'),
     additionalExpensesItem = document.querySelector('.additional_expenses-item'),
     targetAmount = document.querySelector('.target-amount'),
     periodAmount = document.querySelector('.period-amount'),
@@ -22,25 +19,25 @@ const start = document.getElementById('start'),
     depositCheck = document.getElementById('deposit-check'),
     depositBank = document.querySelector('.deposit-bank'),
     depositAmount = document.querySelector('.deposit-amount'),
-    depositPercent = document.querySelector('.deposit-percent');
+    depositPercent = document.querySelector('.deposit-percent'),
+    additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
+    periodSelect = document.querySelector('.period-select');
 
 
 let expensesItems = document.querySelectorAll('.expenses-items'),
-    additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
-    periodSelect = document.querySelector('.period-select'), 
     incomeItems = document.querySelectorAll('.income-items');
 
 class AppData {
   constructor() {
-    this.budget = 0; 
-    this.budgetDay = 0; 
-    this.budgetMonth = 0; 
-    this.income = {}; 
-    this.incomeMonth = 0; 
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.income = {};
+    this.incomeMonth = 0;
     this.addIncome = [];
-    this.expenses = {}; 
-    this.expensesMonth = 0; 
-    this.addExpenses = []; 
+    this.expenses = {};
+    this.expensesMonth = 0;
+    this.addExpenses = [];
     this.deposit = false;
     this.percentDeposit = 0;
     this.moneyDeposit = 0;
@@ -49,7 +46,7 @@ class AppData {
     this.budget = +salaryAmount.value;
     this.getExpenses();
     this.getIncome();
-    this.getExpensesMonth(); 
+    this.getExpensesMonth();
     this.getAddExpenses();
     this.getAddIncome();
     this.getIncomeMonth();
@@ -60,9 +57,9 @@ class AppData {
     this.showResalt();
   }
   cancel() {
-    this.budget = 0; 
-    this.budgetDay = 0; 
-    this.budgetMonth = 0; 
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
     this.income = {};
     this.incomeMonth = 0;
     this.addIncome = [];
@@ -70,25 +67,25 @@ class AppData {
     this.expensesMonth = 0;
     this.addExpenses = [];
     this.deposit = false;
-    this.percentDeposit = 0; 
+    this.percentDeposit = 0;
     allTextInputs.forEach(item => {
       item.value = '';
     });
     this.depositHandler();
     this.eventsListeners();
-    if(expensesItems.length === 2){
+    if (expensesItems.length === 2) {
       expensesItems[1].remove();
       expensesItems = document.querySelectorAll('.expenses-items');
-    } else if (expensesItems.length === 3){
+    } else if (expensesItems.length === 3) {
       expensesItems[1].remove();
       expensesItems[2].remove();
       expensesItems = document.querySelectorAll('.expenses-items');
       expensesPlus.style.display = 'block';
     }
-    if(incomeItems.length === 2){
+    if (incomeItems.length === 2) {
       incomeItems[1].remove();
       incomeItems = document.querySelectorAll('.income-items');
-    } else if (incomeItems.length === 3){
+    } else if (incomeItems.length === 3) {
       incomeItems[1].remove();
       incomeItems[2].remove();
       incomeItems = document.querySelectorAll('.income-items');
@@ -103,73 +100,73 @@ class AppData {
     additionalExpensesValue.value = this.addExpenses.join(', ');
     additionalIncomeValue.value = this.addIncome.join(', ');
     targetMonthValue.value = this.getTargetMonth();
-    incomePeriodValue.value = this.calcPeriod(); 
+    incomePeriodValue.value = this.calcPeriod();
     periodSelect.addEventListener('input', () => {
       periodAmount.textContent = '1';
-      periodAmount.textContent = periodSelect.value; 
+      periodAmount.textContent = periodSelect.value;
       incomePeriodValue.value = this.calcPeriod();
     });
   }
   addExpensesBlock() {
-    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    const cloneExpensesItem = expensesItems[0].cloneNode(true);
     cloneExpensesItem.querySelectorAll('input').forEach(elem => elem.value = '');
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     expensesItems = document.querySelectorAll('.expenses-items');
-    if(expensesItems.length === 3){
+    if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
     }
   }
   addIncomeBlock() {
-    let cloneIncomeItem = incomeItems[0].cloneNode(true);
+    const cloneIncomeItem = incomeItems[0].cloneNode(true);
     cloneIncomeItem.querySelectorAll('input').forEach(elem => elem.value = '');
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
     incomeItems = document.querySelectorAll('.income-items');
-    if(incomeItems.length === 3){
+    if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';
     }
   }
-  getExpenses(){
-    expensesItems.forEach((item) =>{
-      let itemExpenses = item.querySelector('.expenses-title').value;
-      let cashExpenses = item.querySelector('.expenses-amount').value;
-      if(itemExpenses !== '' && cashExpenses !== ''){
+  getExpenses() {
+    expensesItems.forEach(item => {
+      const itemExpenses = item.querySelector('.expenses-title').value;
+      const cashExpenses = item.querySelector('.expenses-amount').value;
+      if (itemExpenses !== '' && cashExpenses !== '') {
         this.expenses[itemExpenses] = cashExpenses;
       }
     });
   }
   getIncome() {
-    incomeItems.forEach((item) =>{
-      let itemIncome = item.querySelector('.income-title').value;
-      let cashIncome = item.querySelector('.income-amount').value;
-      if(itemIncome !== '' && cashIncome !== ''){
+    incomeItems.forEach(item => {
+      const itemIncome = item.querySelector('.income-title').value;
+      const cashIncome = item.querySelector('.income-amount').value;
+      if (itemIncome !== '' && cashIncome !== '') {
         this.income[itemIncome] = cashIncome;
       }
     });
   }
   getAddExpenses() {
-    let addExpenses = additionalExpensesItem.value.split(',');
-    addExpenses.forEach((item) =>{
+    const addExpenses = additionalExpensesItem.value.split(',');
+    addExpenses.forEach(item => {
       item = item.trim();
-      if(item !== ''){
+      if (item !== '') {
         this.addExpenses.push(item);
       }
     });
   }
   getAddIncome() {
-    additionalIncomeItem.forEach((item) =>{
-      let itemValue = item.value.trim();
-      if(itemValue !== ''){
+    additionalIncomeItem.forEach(item => {
+      const itemValue = item.value.trim();
+      if (itemValue !== '') {
         this.addIncome.push(itemValue);
       }
     });
   }
   getExpensesMonth() {
-    for (let key in this.expenses) {
+    for (const key in this.expenses) {
       this.expensesMonth += +this.expenses[key];
     }
   }
   getIncomeMonth() {
-    for (let key in this.income) {
+    for (const key in this.income) {
       this.incomeMonth += +this.income[key];
     }
   }
@@ -182,7 +179,7 @@ class AppData {
     return Math.ceil(targetAmount.value / this.budgetMonth);
   }
   getCancel() {
-    if(this.start){
+    if (this.start) {
       start.style.display = 'none';
       cancel.style.display = 'block';
       allTextInputs.forEach(item => {
@@ -206,30 +203,30 @@ class AppData {
     return this.budgetMonth * periodSelect.value;
   }
   isNumber(n) {
-      return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
-  getInfoDeposit(){
-    if(this.deposit){
+  getInfoDeposit() {
+    if (this.deposit) {
       this.percentDeposit = depositPercent.value;
       this.moneyDeposit = depositAmount.value;
     }
   }
-  changePercent(){
+  changePercent() {
     depositPercent.value = '';
     depositPercent.addEventListener('input', () => {
-      if(isNaN(parseFloat(depositPercent.value))){
-        alert ('Введите корректное значение в поле проценты');
+      if (isNaN(parseFloat(depositPercent.value))) {
+        alert('Введите корректное значение в поле проценты');
         start.disabled = true;
         depositPercent.value = '';
-      } else if(depositPercent.value < 0 || depositPercent.value > 100){
-        alert ('Процент не может быть больше 100');
+      } else if (depositPercent.value < 0 || depositPercent.value > 100) {
+        alert('Процент не может быть больше 100');
         depositPercent.value = '';
       } else {
         start.disabled = false;
       }
     });
     const valueSelect = this.value;
-    if(valueSelect === 'other'){
+    if (valueSelect === 'other') {
       depositPercent.style.display = 'inline-block';
     } else {
       depositPercent.value = valueSelect;
@@ -237,7 +234,7 @@ class AppData {
     }
   }
   depositHandler() {
-    if(depositCheck.checked){
+    if (depositCheck.checked) {
       depositBank.style.display = 'inline-block';
       depositAmount.style.display = 'inline-block';
       this.deposit = true;
@@ -259,9 +256,10 @@ class AppData {
     incomePlus.addEventListener('click', this.addIncomeBlock.bind(this));
     start.disabled = true;
     salaryAmount.addEventListener('input', () => {
-      if(this.isNumber(salaryAmount.value)){
+      if (this.isNumber(salaryAmount.value)) {
         start.disabled = false;
-      } else {start.disabled = true;
+      } else {
+        start.disabled = true;
       }
     });
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
