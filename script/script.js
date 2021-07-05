@@ -16,18 +16,12 @@ window.addEventListener('DOMContentLoaded', function() {
         hours = Math.floor(timeRemaining / 60 / 60);
         return {timeRemaining, hours, minutes, seconds};
     }
-    function zero(n, obj) {
-      if(n < 10){
-        obj.textContent = '0' + n;
-      } else {
-        obj.textContent = n;
-      }
-    }
+    const zero = str => str < 10 ? `0${str}` : str;
     function updateClock(){
       let timer = getTimeRemaining();
-      zero(timer.hours, timerHours);
-      zero(timer.minutes, timerMinutes);
-      zero(timer.seconds, timerSeconds);
+      timerHours.textContent = zero(timer.hours);
+      timerMinutes.textContent = zero(timer.minutes);
+      timerSeconds.textContent = zero(timer.seconds);
     }
     let idInterval = setInterval(updateClock, 1000),
         timer = getTimeRemaining().timeRemaining;
