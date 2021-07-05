@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', function() {
     function updateClock(){
       let timer = getTimeRemaining();
       // time
-      time.textContent = timer.timeNow.toLocaleTimeString('en');
+      time.textContent = timer.timeNow.toLocaleTimeString('ru');
       // dayOfWeekNow
       const dayOfWeekNow = new Date().getDay(),
             days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
