@@ -148,33 +148,4 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   tabs();
 
-  // // prob
-  // const prob = () => {
-  //   const a = document.querySelector('html');
-  //   a.addEventListener('click', (event) =>{
-  //     let b = event.target;
-  //     console.log(b);
-  //   });
-  // };
-  // prob();
 });
-
-
-
-
-
-//   while(target !== tabHeader){
-
-//     if(target.classList.contains('service-header-tab')){
-//       tab.forEach((item, i) => {
-
-//         if(item === target){
-//           toggleTabContent(i);
-//         }
-        
-//       });
-//       return;
-
-//     }
-//     target = target.parentNode;
-// }
