@@ -56,7 +56,6 @@ window.addEventListener('DOMContentLoaded', function() {
     
     document.addEventListener('click', (event) =>{
       let currentClick = event.target;
-      console.log(currentClick);
       if(currentClick.closest('.col-md-1')){
         handlerMenu();
       } 
