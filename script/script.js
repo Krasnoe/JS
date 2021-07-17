@@ -149,9 +149,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // слайдер
 
-  const slider = () => {
+  const slider = (time, booling) => {
     const slide = document.querySelectorAll('.portfolio-item'),
-    btn = document.querySelectorAll('.portfolio-btn'),
     slider = document.querySelector('.portfolio-content'),
     dotParent = document.querySelector('.portfolio-dots');
 
@@ -164,6 +163,7 @@ window.addEventListener('DOMContentLoaded', function() {
       dotParent.appendChild(dots);
     }
     const dot = document.querySelectorAll('.dot');
+          dot[0].classList.add('dot-active');
 
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
@@ -182,8 +182,10 @@ window.addEventListener('DOMContentLoaded', function() {
       nextSlide(slide, currentSlide, 'portfolio-item-active');
       nextSlide(dot, currentSlide, 'dot-active');
     };
-    const startSlide = (time = 3000) => {
-      interval = setInterval(autoPlaySlide, time);
+    const startSlide = () => {
+      if(booling){
+        interval = setInterval(autoPlaySlide, time);
+      }
     };
     const stopSlide = () => {
       clearInterval(interval);
@@ -237,10 +239,10 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    startSlide(1500);
+    startSlide();
 
 
 
   };
-  slider();
+  slider(1500, true);
 });
