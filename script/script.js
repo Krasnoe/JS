@@ -49,25 +49,26 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // menu********************************************************************
   const toggleMenu = () => {
-    const menu = document.querySelector('menu'),
-          allDocument = document.querySelector('html');
+    const menu = document.querySelector('menu');
+          
     
     const handlerMenu = () => {
       menu.classList.toggle('active-menu');
     };
     
-    allDocument.addEventListener('click', (event) =>{
+    document.addEventListener('click', (event) =>{
       let currentClick = event.target;
-      currentClick = currentClick.closest('.col-md-1');
+      currentClick = currentClick.closest('.col-md-1, main');
       if(currentClick){
         handlerMenu();
       } else {
         currentClick = event.target;
       }
-      currentClick = currentClick.closest('menu');
+      currentClick = currentClick.closest('li>a, .close-btn');
       if(currentClick){
         handlerMenu();
       }
+      console.log(currentClick);
     });
   };
   toggleMenu();
@@ -82,8 +83,8 @@ window.addEventListener('DOMContentLoaded', function() {
     let flyInterval;
     let flyAnimate = () => {
       count++;
-      if(count < 90.25){
-        popupContent.style.transform = `rotate(${count * 4}deg)`;
+      if(count < 60.1){
+        popupContent.style.transform = `rotate(${count * 6}deg)`;
       } else {
         cancelAnimationFrame(flyInterval);
         count = 0;
