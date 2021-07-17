@@ -56,15 +56,15 @@ window.addEventListener('DOMContentLoaded', function() {
     
     document.addEventListener('click', (event) =>{
       let currentClick = event.target;
-      currentClick = currentClick.closest('.col-md-1, main');
-      if(currentClick){
+      console.log(currentClick);
+      if(currentClick.closest('.col-md-1')){
         handlerMenu();
-      } else {
-        currentClick = event.target;
-      }
-      currentClick = currentClick.closest('li>a, .close-btn');
-      if(currentClick){
+      } 
+      if(currentClick.closest('li>a, .close-btn')){
         handlerMenu();
+      } 
+      if(!currentClick.closest('.active-menu, .col-md-1')){
+        menu.classList.remove('active-menu');
       }
     });
   };
@@ -113,7 +113,6 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     });
   };
-  
   togglePopUp();
 
   // табы*************************************************************************
@@ -146,8 +145,7 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   tabs();
 
-  // слайдер
-
+  // слайдер ****************************************************************************
   const slider = (time, booling) => {
     const slide = document.querySelectorAll('.portfolio-item'),
     slider = document.querySelector('.portfolio-content'),
