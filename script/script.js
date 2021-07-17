@@ -43,7 +43,6 @@ window.addEventListener('DOMContentLoaded', function() {
       timerSeconds.textContent = '00';
       clearInterval(idInterval);
   }
-
   }
   countTimer('31 december 2022');
 
@@ -51,7 +50,6 @@ window.addEventListener('DOMContentLoaded', function() {
   const toggleMenu = () => {
     const menu = document.querySelector('menu');
           
-    
     const handlerMenu = () => {
       menu.classList.toggle('active-menu');
     };
@@ -68,7 +66,6 @@ window.addEventListener('DOMContentLoaded', function() {
       if(currentClick){
         handlerMenu();
       }
-      console.log(currentClick);
     });
   };
   toggleMenu();
