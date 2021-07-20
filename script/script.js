@@ -56,15 +56,14 @@ window.addEventListener('DOMContentLoaded', function() {
     
     document.addEventListener('click', (event) =>{
       let currentClick = event.target;
-      currentClick = currentClick.closest('.col-md-1, main');
-      if(currentClick){
+      if(currentClick.closest('.col-md-1')){
         handlerMenu();
-      } else {
-        currentClick = event.target;
-      }
-      currentClick = currentClick.closest('li>a, .close-btn');
-      if(currentClick){
+      } 
+      if(currentClick.closest('li>a, .close-btn')){
         handlerMenu();
+      } 
+      if(!currentClick.closest('.active-menu, .col-md-1')){
+        menu.classList.remove('active-menu');
       }
     });
   };
@@ -113,7 +112,6 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     });
   };
-  
   togglePopUp();
 
   // табы*************************************************************************
@@ -146,8 +144,7 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   tabs();
 
-  // слайдер
-
+  // слайдер************************************************************************
   const slider = (time, booling) => {
     const slide = document.querySelectorAll('.portfolio-item'),
     slider = document.querySelector('.portfolio-content'),
@@ -244,4 +241,54 @@ window.addEventListener('DOMContentLoaded', function() {
 
   };
   slider(1500, true);
+
+  // Дата Атрибуты, Регулярные Выражения*********************************************
+  const check = () =>{
+    const img = document.querySelectorAll('.command__photo');
+    for (let i = 0; i < img.length; i++){
+      img[i].addEventListener('mouseenter', (event) => {
+        const target = event.target;
+        target.alt = target.src;
+        target.src = target.dataset.img;
+      });
+      img[i].addEventListener('mouseout', (event) => {
+        const target = event.target;
+        target.src = target.alt;
+      });
+    }
+    
+    const calcBlock = document.querySelector('.calc-block');
+    calcBlock.addEventListener('input', (event) => {
+      if(event.target.closest('.calc-square, .calc-count, .calc-day')){
+        event.target.value = event.target.value.replace(/\D/g, '');
+      }
+    });
+
+    document.addEventListener('input', (event) => {
+      const target = event.target;
+      if(target.closest('#form1-name, #form2-name, #form2-message')){
+        target.value = target.value.replace(/[^а-яё\-\s]/gi,'');
+      }
+      if(event.target.closest('#form1-email, #form2-email')){
+        target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/]/gi, '');
+      }
+      if(event.target.closest('#form1-phone, #form2-phone')){
+        target.value = target.value.replace(/[^0-9\-)()]/gi, '');
+      }
+    });
+
+    const input = document.querySelectorAll('input'),
+          name1 = document.getElementById('form1-name'),
+          name2 = document.getElementById('form2-name');
+      input.forEach((elem) => {
+        elem.addEventListener('blur', () => {
+          elem.value = elem.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^\-*\s*\-*|\-*\s*\-*$/g, '').replace(/^\s*\-*\s*|\s*\-*\s*$/g, '').trim();
+          name1.value = name1.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
+          name2.value = name2.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
+      });
+    });
+    
+  };
+  check();
+  
 });
