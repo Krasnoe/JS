@@ -242,21 +242,23 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   slider(1500, true);
 
+  // смена фотографий***************************************************************
+  const changeFoto = () => {
+    document.addEventListener('mouseover', (event) => {
+      const target = event.target;
+      if(target.closest('.command__photo')){
+        [target.src, target.dataset.img] = [target.dataset.img, target.src];
+      }
+    });
+    document.addEventListener('mouseout', (event) => {
+        const target = event.target;
+        [target.src, target.dataset.img] = [target.dataset.img, target.src];
+    });
+  };
+  changeFoto();
+
   // Дата Атрибуты, Регулярные Выражения*********************************************
   const check = () =>{
-    const img = document.querySelectorAll('.command__photo');
-    for (let i = 0; i < img.length; i++){
-      img[i].addEventListener('mouseenter', (event) => {
-        const target = event.target;
-        target.alt = target.src;
-        target.src = target.dataset.img;
-      });
-      img[i].addEventListener('mouseout', (event) => {
-        const target = event.target;
-        target.src = target.alt;
-      });
-    }
-    
     const calcBlock = document.querySelector('.calc-block');
     calcBlock.addEventListener('input', (event) => {
       if(event.target.closest('.calc-square, .calc-count, .calc-day')){
@@ -282,7 +284,10 @@ window.addEventListener('DOMContentLoaded', function() {
           name2 = document.getElementById('form2-name');
       input.forEach((elem) => {
         elem.addEventListener('blur', () => {
-          elem.value = elem.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^\-*\s*\-*|\-*\s*\-*$/g, '').replace(/^\s*\-*\s*|\s*\-*\s*$/g, '').trim();
+          elem.value = elem.value.replace(/\s+/g, ' ')
+                                 .replace(/\-+/g, '-')
+                                 .replace(/^\-*\s*\-*|\-*\s*\-*$/g, '')
+                                 .replace(/^\s*\-*\s*|\s*\-*\s*$/g, '').trim();
           name1.value = name1.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
           name2.value = name2.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
       });
