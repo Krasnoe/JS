@@ -337,4 +337,6 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   calc();
   
+  // маска для поля телефона*********************************************************************
+  maskPhone('#form1-phone, #form2-phone');
 });
