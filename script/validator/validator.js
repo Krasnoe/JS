@@ -13,7 +13,13 @@ class Validator{
   init(){
     this.applyStyle();
     this.setPattern();
-    // this.elementsForm.forEach(elem => elem.addEventlistener('change', this.chekIt.bind(this)));
+    this.elementsForm.forEach(elem => elem.addEventListener('change', this.chekIt.bind(this)));
+    this.form.addEventListener('submit', e => {
+      this.elementsForm.forEach(elem => this.chekIt({target: elem}));
+      if(this.error.size){
+        e.preventDefault();
+      }
+    });
   }
   isValid(elem){
     const validatorMethod = {
@@ -27,13 +33,14 @@ class Validator{
         return pattern.test(elem.value);
       }
     };
-    const method = this.method[elem.id];
-    if(method){
-      return method.every(item => console.log(item));
+    if(this.method){
+      const method = this.method[elem.id];
+      if(method){
+        return method.every(item => validatorMethod[item[0]](elem, this.pattern[item[1]]));
+      }
+    } else {
+      console.warn('необходимо передать id полей ввода и методы проверки этих полей');
     }
-
-
-
     return true;
   }
   chekIt(event){
@@ -49,7 +56,7 @@ class Validator{
   showError(elem){
     elem.classList.remove('success');
     elem.classList.add('error');
-    if(elem.nextElementSibling.classList.contains('validator-error')){
+    if(elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error')){
       return;
     }
     const errorDiv = document.createElement('div');
@@ -60,10 +67,11 @@ class Validator{
   showSuccess(elem){
     elem.classList.remove('error');
     elem.classList.add('success');
-    if(elem.nextElementSibling.classList.contains('validator-error')){
+    if(elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error')){
       elem.nextElementSibling.remove();
     }
   }
+
   applyStyle(){
     const style = document.createElement('style');
     style.textContent = `
@@ -80,7 +88,6 @@ class Validator{
       }
     `;
     document.head.appendChild(style);
-
   }
   setPattern(){
     if(!this.pattern.phone){
@@ -89,8 +96,6 @@ class Validator{
     if(!this.pattern.email){
       this.pattern.email = /^\w+@|w+\.\w{2,}$/;
     }
-  
-    
   }
 }
 
@@ -110,7 +115,6 @@ const valid = new Validator({
       ['pattern', 'email'],
     ]
   }
-  
 });
 
 valid.init();
