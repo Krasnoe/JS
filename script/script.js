@@ -268,20 +268,24 @@ window.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('input', (event) => {
       const target = event.target;
-      if(target.closest('#form1-name, #form2-name, #form2-message')){
-        target.value = target.value.replace(/[^а-яё\-\s]/gi,'');
+      if(target.closest('#form1-name, #form2-name, #form3-name')){
+        target.value = target.value.replace(/[^а-яё\s]/gi,'');
       }
-      if(event.target.closest('#form1-email, #form2-email')){
+      if(target.closest('#form2-message')){
+        target.value = target.value.replace(/[a-z]/gi,'');
+      }
+      if(event.target.closest('#form1-email, #form2-email, #form3-email')){
         target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/]/gi, '');
       }
-      if(event.target.closest('#form1-phone, #form2-phone')){
-        target.value = target.value.replace(/[^0-9\-)()]/gi, '');
+      if(event.target.closest('#form1-phone, #form2-phone, #form3-phone')){
+        target.value = target.value.replace(/[^0-9\+]/gi, '');
       }
     });
 
     const input = document.querySelectorAll('input'),
           name1 = document.getElementById('form1-name'),
-          name2 = document.getElementById('form2-name');
+          name2 = document.getElementById('form2-name'),
+          name3 = document.getElementById('form3-name');
       input.forEach((elem) => {
         elem.addEventListener('blur', () => {
           elem.value = elem.value.replace(/\s+/g, ' ')
@@ -290,6 +294,7 @@ window.addEventListener('DOMContentLoaded', function() {
                                  .replace(/^\s*\-*\s*|\s*\-*\s*$/g, '').trim();
           name1.value = name1.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
           name2.value = name2.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
+          name3.value = name3.value.replace(/([а-яё])([а-яё]+)/gi, (match, val1, val2) => val1.toUpperCase() + val2);
       });
     });
     
@@ -338,5 +343,65 @@ window.addEventListener('DOMContentLoaded', function() {
   calc();
   
   // маска для поля телефона*********************************************************************
-  maskPhone('#form1-phone, #form2-phone');
+  // maskPhone('#form1-phone, #form2-phone, #form3-phone');
+
+  // send-ajax-form*******************************************************************************
+  const sendForm = (selector) => {
+    const errorMessage = 'Что-то пошло не так...',
+          loadMessage = 'Загрузка...',
+          successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+    const form = document.querySelector(selector);
+    const input = form.querySelectorAll('input');
+    
+
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.csstext = 'font-size: 2rem;';
+    statusMessage.style.color = 'white';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      postData(body, 
+        () => {
+          statusMessage.textContent = successMessage;
+        }, 
+        (error) => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        }
+        );
+      input.forEach((item) => {
+        item.value = '';
+      });
+    });
+    
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () => {
+        if(request.readyState !== 4){
+          return;
+        }
+        if(request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+      request.send(JSON.stringify(body));
+    };
+  };
+  sendForm('#form1');
+  sendForm('#form2');
+  sendForm('#form3');
+    
 });
