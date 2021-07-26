@@ -346,25 +346,23 @@ window.addEventListener('DOMContentLoaded', function() {
   // maskPhone('#form1-phone, #form2-phone, #form3-phone');
 
   // send-ajax-form*******************************************************************************
-  const sendForm = (selector) => {
+  const sendForm = () => {
     const errorMessage = 'Что-то пошло не так...',
           loadMessage = 'Загрузка...',
           successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-    const form = document.querySelector(selector);
-    const input = form.querySelectorAll('input');
+    const input = document.querySelectorAll('input');
     
-
-
     const statusMessage = document.createElement('div');
     statusMessage.style.csstext = 'font-size: 2rem;';
     statusMessage.style.color = 'white';
 
-    form.addEventListener('submit', (event) => {
+    document.addEventListener('submit', (event) => {
       event.preventDefault();
-      form.appendChild(statusMessage);
+      let target = event.target;
+      target.appendChild(statusMessage);
       statusMessage.textContent = loadMessage;
-      const formData = new FormData(form);
+      const formData = new FormData(target);
       let body = {};
       formData.forEach((val, key) => {
         body[key] = val;
@@ -376,20 +374,20 @@ window.addEventListener('DOMContentLoaded', function() {
         (error) => {
           statusMessage.textContent = errorMessage;
           console.error(error);
-        }
+        }, target
         );
       input.forEach((item) => {
         item.value = '';
       });
     });
     
-    const postData = (body, outputData, errorData) => {
+    const postData = (body, outputData, errorData, target) => {
       const request = new XMLHttpRequest();
       request.addEventListener('readystatechange', () => {
         if(request.readyState !== 4){
           return;
         }
-        if(request.status === 200) {
+        if(request.status === 200 && target.tagName === 'FORM') {
           outputData();
         } else {
           errorData(request.status);
@@ -400,8 +398,6 @@ window.addEventListener('DOMContentLoaded', function() {
       request.send(JSON.stringify(body));
     };
   };
-  sendForm('#form1');
-  sendForm('#form2');
-  sendForm('#form3');
+  sendForm();
     
 });
