@@ -231,7 +231,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
     startSlide();
   };
-  slider(1500, true);
+  slider(2000, true);
 
   // смена фотографий***************************************************************
   const changeFoto = () => {
@@ -361,7 +361,16 @@ window.addEventListener('DOMContentLoaded', function() {
       input.forEach((item) => {
         item.value = '';
       });
-      const postData = (body, target) => {
+      postData(body, target)
+              .then(() => {
+                statusMessage.textContent = successMessage;
+              })
+              .catch(error => {
+                statusMessage.textContent = errorMessage;
+                console.error(error);
+              });
+    });
+    const postData = (body, target) => {
         return new Promise((resolve, reject) => {
           const request = new XMLHttpRequest();
           request.addEventListener('readystatechange', () => {
@@ -379,13 +388,6 @@ window.addEventListener('DOMContentLoaded', function() {
           request.send(JSON.stringify(body));
         });
       };
-      postData(body, target).then(() => {
-        statusMessage.textContent = successMessage;
-      }).catch(error => {
-        statusMessage.textContent = errorMessage;
-          console.error(error);
-      });
-    });
     
   };
   sendForm();
