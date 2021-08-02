@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', function() {
   tabs();
 
   // слайдер************************************************************************
-  const slider = (time, booling) => {
+  const slider = (time, autoplay) => {
     const slide = document.querySelectorAll('.portfolio-item'),
     slider = document.querySelector('.portfolio-content'),
     dotParent = document.querySelector('.portfolio-dots');
@@ -178,27 +178,25 @@ window.addEventListener('DOMContentLoaded', function() {
       nextSlide(slide, currentSlide, 'portfolio-item-active');
       nextSlide(dot, currentSlide, 'dot-active');
     };
+
     const startSlide = () => {
-      if(booling){
+      if(autoplay){
         interval = setInterval(autoPlaySlide, time);
       }
     };
+
     const stopSlide = () => {
       clearInterval(interval);
     };
 
     slider.addEventListener('click', (event) => {
       event.preventDefault();
-
       const target = event.target;
-
       if(!target.matches('.portfolio-btn, .dot')){
         return;
       }
-
       prevSlide(slide, currentSlide, 'portfolio-item-active');
       prevSlide(dot, currentSlide, 'dot-active');
-
       if(target.matches('#arrow-right')){
         currentSlide++;
       } else if(target.matches('#arrow-left')){
@@ -214,31 +212,24 @@ window.addEventListener('DOMContentLoaded', function() {
         currentSlide = 0;
       }
       if(currentSlide < 0){
-        currentSlide = slide.length - 1;
+        currentSlide = (slide.length - 1);
       }
-
       nextSlide(slide, currentSlide, 'portfolio-item-active');
       nextSlide(dot, currentSlide, 'dot-active');
-
     });
-    
+
     slider.addEventListener('mouseover', (event) => {
-      if(event.target.matches('.portfolio-btn') || 
-      event.target.matches('.dot')){
+      if(event.target.matches('.portfolio-btn') || event.target.matches('.dot')){
         stopSlide();
       }
     });
+
     slider.addEventListener('mouseout', (event) => {
-      if(event.target.matches('.portfolio-btn') || 
-      event.target.matches('.dot')){
+      if(event.target.matches('.portfolio-btn') || event.target.matches('.dot')){
         startSlide();
       }
     });
-
     startSlide();
-
-
-
   };
   slider(1500, true);
 
@@ -367,36 +358,35 @@ window.addEventListener('DOMContentLoaded', function() {
       formData.forEach((val, key) => {
         body[key] = val;
       });
-      postData(body, 
-        () => {
-          statusMessage.textContent = successMessage;
-        }, 
-        (error) => {
-          statusMessage.textContent = errorMessage;
-          console.error(error);
-        }, target
-        );
       input.forEach((item) => {
         item.value = '';
       });
+      const postData = (body, target) => {
+        return new Promise((resolve, reject) => {
+          const request = new XMLHttpRequest();
+          request.addEventListener('readystatechange', () => {
+            if(request.readyState !== 4){
+              return;
+            }
+            if(request.status === 200 && target.tagName === 'FORM') {
+              resolve();
+            } else {
+              reject(request.status);
+            }
+          });
+          request.open('POST', './server.php');
+          request.setRequestHeader('Content-Type', 'application/json');
+          request.send(JSON.stringify(body));
+        });
+      };
+      postData(body, target).then(() => {
+        statusMessage.textContent = successMessage;
+      }).catch(error => {
+        statusMessage.textContent = errorMessage;
+          console.error(error);
+      });
     });
     
-    const postData = (body, outputData, errorData, target) => {
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', () => {
-        if(request.readyState !== 4){
-          return;
-        }
-        if(request.status === 200 && target.tagName === 'FORM') {
-          outputData();
-        } else {
-          errorData(request.status);
-        }
-      });
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'application/json');
-      request.send(JSON.stringify(body));
-    };
   };
   sendForm();
     
