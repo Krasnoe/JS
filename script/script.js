@@ -237,13 +237,15 @@ window.addEventListener('DOMContentLoaded', function() {
   const changeFoto = () => {
     document.addEventListener('mouseover', (event) => {
       const target = event.target;
-      if(target.closest('.command__photo')){
+      if(target.matches('.command__photo')){
         [target.src, target.dataset.img] = [target.dataset.img, target.src];
       }
     });
     document.addEventListener('mouseout', (event) => {
-        const target = event.target;
+      const target = event.target;
+      if(target.matches('.command__photo')){
         [target.src, target.dataset.img] = [target.dataset.img, target.src];
+      }
     });
   };
   changeFoto();
@@ -342,11 +344,20 @@ window.addEventListener('DOMContentLoaded', function() {
           loadMessage = 'Загрузка...',
           successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-    const input = document.querySelectorAll('input');
-    
-    const statusMessage = document.createElement('div');
+    const input = document.querySelectorAll('input'),
+          statusMessage = document.createElement('div');
     statusMessage.style.csstext = 'font-size: 2rem;';
     statusMessage.style.color = 'white';
+
+    const postData = (body) => {
+        return fetch('./server.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body),
+        });
+    };
 
     document.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -361,32 +372,18 @@ window.addEventListener('DOMContentLoaded', function() {
       input.forEach((item) => {
         item.value = '';
       });
-      const postData = (body, target) => {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.addEventListener('readystatechange', () => {
-            if(request.readyState !== 4){
-              return;
-            }
-            if(request.status === 200 && target.tagName === 'FORM') {
-              resolve();
-            } else {
-              reject(request.status);
-            }
-          });
-          request.open('POST', './server.php');
-          request.setRequestHeader('Content-Type', 'application/json');
-          request.send(JSON.stringify(body));
-        });
-      };
-      postData(body, target).then(() => {
-        statusMessage.textContent = successMessage;
-      }).catch(error => {
-        statusMessage.textContent = errorMessage;
-          console.error(error);
-      });
+      postData(body)
+              .then((response) => {
+                if(response.status !== 200){
+                  throw new Error('Status network not 200');
+                }
+                statusMessage.textContent = successMessage;
+              })
+              .catch(error => {
+                statusMessage.textContent = errorMessage;
+                console.error(error);
+              });
     });
-    
   };
   sendForm();
     
