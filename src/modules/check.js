@@ -15,10 +15,10 @@ const check = () => {
     if(target.closest('#form2-message')){
       target.value = target.value.replace(/[a-z]/gi,'');
     }
-    if(event.target.closest('#form1-email, #form2-email, #form3-email')){
-      target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/]/gi, '');
+    if(target.matches('#form1-email, #form2-email, #form3-email')){
+      target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/'"]/gi, '');
     }
-    if(event.target.closest('#form1-phone, #form2-phone, #form3-phone')){
+    if(target.closest('#form1-phone, #form2-phone, #form3-phone')){
       target.value = target.value.replace(/[^0-9\+]/gi, '');
     }
   });

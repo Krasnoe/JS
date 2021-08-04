@@ -9,6 +9,7 @@ import changeFoto from './modules/changeFoto';
 import check from './modules/check';
 import calc from './modules/calc';
 import sendForm from './modules/sendForm';
+import maskPhone from './modules/maskPhone';
 
   // timer
   countTimer('31 december 2022');
@@ -38,4 +39,4 @@ import sendForm from './modules/sendForm';
   sendForm();
   
   // маска для поля телефона
-  // maskPhone('#form1-phone, #form2-phone, #form3-phone');
+  maskPhone('#form1-phone, #form2-phone, #form3-phone');

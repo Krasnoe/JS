@@ -38,10 +38,16 @@ const sendForm = () => {
                 throw new Error('Status network not 200');
               }
               statusMessage.textContent = successMessage;
+              setTimeout(() => {
+                statusMessage.textContent = '';
+              }, 5000);
             })
             .catch(error => {
               statusMessage.textContent = errorMessage;
               console.error(error);
+              setTimeout(() => {
+                statusMessage.textContent = '';
+              }, 5000);
             });
   });
 };
