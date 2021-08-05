@@ -258,20 +258,36 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     document.addEventListener('input', (event) => {
+      event.preventDefault();
       const target = event.target;
+      const patternEmail = new RegExp(/^[a-z]+@[a-z]+\.[a-z]{2,3}$/);
+      if(target.matches('#form1-email, #form2-email, #form3-email')){
+        target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/]/gi, '');
+        if(target.name === 'user_email' && !patternEmail.test(event.target.value)){
+          target.style.border = 'solid red';
+          event.preventDefault();
+        } else {
+          target.style.border = 'none';
+        }
+      }
+      
       if(target.closest('#form1-name, #form2-name, #form3-name')){
         target.value = target.value.replace(/[^а-яё\s]/gi,'');
       }
       if(target.closest('#form2-message')){
         target.value = target.value.replace(/[a-z]/gi,'');
       }
-      if(event.target.closest('#form1-email, #form2-email, #form3-email')){
-        target.value = target.value.replace(/[а-яё0-9+^$\][}{)(?/]/gi, '');
-      }
-      if(event.target.closest('#form1-phone, #form2-phone, #form3-phone')){
+      if(target.closest('#form1-phone, #form2-phone, #form3-phone')){
         target.value = target.value.replace(/[^0-9\+]/gi, '');
       }
+
     });
+    // document.addEventListener('submit', (event) => {
+    //   if(event.target.name === 'user_form'){
+    //     event.preventDefault();
+    //     console.log(event.target.name);
+    //   }
+    // });
 
     const input = document.querySelectorAll('input'),
           name1 = document.getElementById('form1-name'),
