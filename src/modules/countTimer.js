@@ -10,7 +10,7 @@ function countTimer(deadline) {
       seconds = Math.floor(timeRemaining % 60),
       minutes = Math.floor((timeRemaining / 60) % 60),
       hours = Math.floor(timeRemaining / 60 / 60);
-      return {timeRemaining, hours, minutes, seconds};
+    return {timeRemaining, hours, minutes, seconds};
   }
   function updateClock(){
     let timer = getTimeRemaining();
@@ -30,15 +30,15 @@ function countTimer(deadline) {
       timerSeconds.textContent = timer.seconds;
     }
   }
-
+  updateClock();
   let idInterval = setInterval(updateClock, 1000),
       timer = getTimeRemaining().timeRemaining;
 
   if (timer === 0 || timer < 0) {
-      timerHours.textContent = '00';
-      timerMinutes.textContent = '00';
-      timerSeconds.textContent = '00';
-      clearInterval(idInterval);
+    timerHours.textContent = '00';
+    timerMinutes.textContent = '00';
+    timerSeconds.textContent = '00';
+    clearInterval(idInterval);
   }
 }
 export default countTimer;

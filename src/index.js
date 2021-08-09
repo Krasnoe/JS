@@ -12,7 +12,7 @@ import sendForm from './modules/sendForm';
 import maskPhone from './modules/maskPhone';
 
   // timer
-  countTimer('31 december 2022');
+  countTimer('12 august 2021');
 
   // menu
   toggleMenu();
