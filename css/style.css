@@ -11,6 +11,9 @@ body {
 	overflow-x: hidden;
 	font-family: "Open Sans", sans-serif;
 }
+html {
+	scroll-behavior: smooth
+}
 .main-wrapper {
 	min-height: 100%;
 	height: auto !important;
