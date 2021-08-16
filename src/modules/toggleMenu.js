@@ -18,7 +18,6 @@ const toggleMenu = () => {
 
   document.addEventListener('click', (event) =>{
     let currentClick = event.target;
-    console.log(currentClick);
     if(currentClick.matches('.callback-btn') || currentClick.matches('.modal-overlay') || currentClick.closest('.modal-close')){
       handlerMenu();
     } 
