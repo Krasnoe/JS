@@ -4,6 +4,9 @@ import toggleMenu from './modules/toggleMenu';
 import slider from './modules/slider';
 import scrolls from './modules/scrolls';
 import SliderCarousel from './modules/SliderCarousel';
+import sendForm from './modules/sendForm';
+import maskPhone from './modules/maskPhone';
+
 
 
 toggleMenu();
@@ -34,3 +37,7 @@ const carousel = new SliderCarousel({
   ]
 });
 carousel.init();
+
+sendForm();
+
+maskPhone('.tel');
