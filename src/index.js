@@ -8,7 +8,7 @@ import sendForm from './modules/sendForm';
 import maskPhone from './modules/maskPhone';
 import accordeon from './modules/accordeon';
 import mobileMenu from './modules/mobileMenu';
-
+import aboutUs from './modules/aboutUs';
 
 toggleMenu();
 
@@ -46,3 +46,5 @@ maskPhone('.tel');
 accordeon();
 
 mobileMenu();
+
+aboutUs();
