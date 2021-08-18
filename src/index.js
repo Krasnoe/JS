@@ -6,7 +6,7 @@ import scrolls from './modules/scrolls';
 import SliderCarousel from './modules/SliderCarousel';
 import sendForm from './modules/sendForm';
 import maskPhone from './modules/maskPhone';
-
+import accordeon from './modules/accordeon';
 
 
 toggleMenu();
@@ -41,3 +41,5 @@ carousel.init();
 sendForm();
 
 maskPhone('.tel');
+
+accordeon();
