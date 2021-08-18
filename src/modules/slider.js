@@ -5,11 +5,12 @@ const slider = (time, booling) => {
         
   let currentSlide = 0,
       interval;
+      
+  table[0].classList.add('active');
 
   const ul = document.createElement('ul');
   ul.className = 'slick-dots';
   slider.appendChild(ul);
-  // const dotParent = document.querySelector('.slick-dots');
 
   for (let i = 0; i < slide.length; i++) {
       const dots = document.createElement('li');
