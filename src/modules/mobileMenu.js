@@ -7,8 +7,11 @@ const mobileMenu = () => {
     if(event.target.closest('.mob-menu-btn')){
       addClass();
     } 
-    if(event.target.closest('.mobile-menu-close') || event.target.closest('li')){
+    if(event.target.closest('.mobile-menu-close, li>a')){
       addClass();
+    }
+    if(event.target.closest('.overlay')){
+      document.querySelector('.mobile-menu').classList.remove('open');
     }
   });
 };
