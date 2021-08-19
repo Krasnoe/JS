@@ -15,4 +15,4 @@ const mobileMenu = () => {
     }
   });
 };
-export default mobileMenu();
+export default mobileMenu;

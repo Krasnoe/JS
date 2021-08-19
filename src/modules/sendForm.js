@@ -34,23 +34,39 @@ const sendForm = () => {
     });
   });
 
+  let valid = false;
+
+  document.addEventListener('input', (event) => {
+    if(event.target.placeholder === 'Ваше имя' && /^[а-яё]{3,20}$/i.test(event.target.value)){
+      valid = true;
+      return;
+    } else {
+      valid = false;
+    }
+    if(event.target.placeholder === 'Телефон*' && event.target.value.length === 18){
+      valid = true;
+      return;
+    } else {
+      valid = false;
+    }
+  });
+
+
   document.addEventListener('submit', (event) => {
     event.preventDefault();
     let target = event.target;
-    target.appendChild(statusMessage);
-    statusMessage.textContent = loadMessage;
-
-    const formData = new FormData(target);
-    let body = {};
-    formData.forEach((val, key) => {
-      body[key] = val;
-    });
-
-    input.forEach((item) => {
-      item.value = '';
-    });
-    
-    postData(body)
+    if(valid === true){
+      target.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(target);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      input.forEach((item) => {
+        item.value = '';
+      });
+      postData(body)
             .then((response) => {
               if(response.status !== 200){
                 throw new Error('Status network not 200');
@@ -71,6 +87,10 @@ const sendForm = () => {
                 statusMessage.textContent = '';
               }, 5000);
             });
+    } else {
+      return;
+    }
+    valid = false;
   });
 };
 export default sendForm;

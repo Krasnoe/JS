@@ -32,4 +32,4 @@ const aboutUs = () => {
     }
   });
 };
-export default aboutUs();
+export default aboutUs;
